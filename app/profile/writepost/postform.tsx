@@ -32,14 +32,11 @@ import { User } from '@supabase/supabase-js';
       { title, author, content, tags},
     ]);
 
-    if (error) {
-      console.log('Error adding poem:', error);
-    } else {
-      console.log('Poem added successfully:', data);
+    if (data) {
       setPoems([...poems, data[0]]);
-      e.currentTarget.reset();
       alert('Poem submitted successfully');
-    } 
+      e.currentTarget.reset();
+    } else {console.log('Error adding poem:', error); } 
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
