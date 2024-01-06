@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Poem } from '@/app/poems/fetchpoems';
 import { User } from '@supabase/supabase-js';
+import { z } from 'zod'
 
  const AddPoemForm = () => {
   const supabase = createClient();

@@ -4,13 +4,20 @@ import Link from "next/link";
 import { useState, useEffect } from 'react';
 import { Poem } from "../poems/fetchpoems";
 import { User } from "@supabase/supabase-js";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import UpdatePoemForm from "./updatepoem/form";
 
 export default function Profile() {
     const supabase = createClient();
+    const router = useRouter(); 
     const [poems, setPoems] = useState<Poem[]>([]);
     const [currentUser, setCurrentUser] = useState<User>();
+    const [selectedPoemId, setSelectedPoemId] = useState(0);
+
+    const handleUpdateClick = (poemId: number) => {
+      setSelectedPoemId(poemId);
+    };
 
     useEffect(() => {
      async function fetchPoems() {
@@ -28,7 +35,7 @@ export default function Profile() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
         <h1 className="text-3xl">USER: {currentUser?.email}</h1><button onClick={async () => {
           await supabase.auth.signOut();
-          return redirect('/login');
+          return router.push('/');
         }} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Log Out</button>
         </div>
         <hr/>
@@ -39,7 +46,10 @@ export default function Profile() {
           <li key={poem.id}><Link href={"/poems/"+poem.id} className="hover:text-blue-hover">{poem.title}</Link>
           <button onClick={async () => {
               await supabase.from('poems').delete().eq('id', ''+poem.id); revalidatePath('/profile', 'page')
-          }} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Delete</button></li>
+          }} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Delete</button>
+         <button onClick={() => {handleUpdateClick(poem.id)}} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Update</button>
+         {selectedPoemId === poem.id && <UpdatePoemForm poemId={poem.id} />}
+         </li>
         ))}
       </ul>
        </div> 
