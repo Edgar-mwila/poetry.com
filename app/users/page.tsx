@@ -14,7 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       <h1>Our esteemed users are: </h1>
       <ul>
        {user.users.map((user) => {
-            return <li key={user.id}><Link href={'/users/'+user.id}>{user.email}</Link></li>
+            return <li key={user.id}>{user.email}</li>
        })} 
       </ul>
     </div>

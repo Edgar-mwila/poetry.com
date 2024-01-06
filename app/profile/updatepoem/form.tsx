@@ -57,7 +57,7 @@ const UpdatePoemForm = ({ poemId }: { poemId: number }) => {
       await supabase.from('poems').update({ title: data.title, content: data.content}).eq('id', poemId);
 
       console.log('Poem updated successfully!');
-      router.push('/profile');
+      window.location.reload();
       // Handle success, e.g., redirect to profile or display a success message
     } catch (error) {
       console.error('Error updating poem:');
@@ -68,7 +68,7 @@ const UpdatePoemForm = ({ poemId }: { poemId: number }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit(submit)} className='flex-1 flex h-full max-h-80 flex-col gap-4 items-center justify-center'>
       {/* Form inputs go here */}
       <label>
         Title:
