@@ -45,7 +45,8 @@ export default function Profile() {
         {poems.map((poem) => (
           <li key={poem.id}><Link href={"/poems/"+poem.id} className="hover:text-blue-hover">{poem.title}</Link>
           <button onClick={async () => {
-              await supabase.from('poems').delete().eq('id', ''+poem.id); revalidatePath('/profile', 'page')
+              await supabase.from('poems').delete().eq('id', ''+poem.id); revalidatePath('/profile', 'page');
+              window.location.reload();
           }} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Delete</button>
          <button onClick={() => {handleUpdateClick(poem.id)}} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Update</button>
          {selectedPoemId === poem.id && <UpdatePoemForm poemId={poem.id} />}
